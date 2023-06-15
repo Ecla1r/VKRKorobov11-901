@@ -1,0 +1,189 @@
+Hypothesis: Columns age (Type Numerical) and sex (Type Categorical Dichotomous) have the following correlation results: 0.0753075932943106
+
+Hypothesis: Columns age (Type Numerical) and chest_pain_type (Type Categorical Ordinal) have the following correlation results: 0.16995410278804887
+
+Hypothesis: Columns age (Type Numerical) and rest_bld_press (Type Numerical) have the following correlation results: Correlation = 0.30259670577776426 and Linear.
+Correlation defined as weak (0.2 < |η| <= 0.39) by Evans scale and moderate (0.3 < |η| <= 0.5) by Chaddock scale
+
+Hypothesis: Columns age (Type Numerical) and ser_chol (Type Numerical) have the following correlation results: No correlation
+
+Hypothesis: Columns age (Type Numerical) and fast_bld_sugar (Type Categorical Dichotomous) have the following correlation results: 0.1232448019301544
+
+Hypothesis: Columns age (Type Numerical) and rest_elcard_res (Type Categorical Ordinal) have the following correlation results: 0.1618550925075473
+
+Hypothesis: Columns age (Type Numerical) and max_heart_rate (Type Numerical) have the following correlation results: Correlation = 0.42750885556881485 and Linear.
+Correlation defined as moderate (0.4 < |η| <= 0.59) by Evans scale and moderate (0.3 < |η| <= 0.5) by Chaddock scale
+
+Hypothesis: Columns age (Type Numerical) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: 0.11420996602287685
+
+Hypothesis: Columns age (Type Numerical) and oldpeak (Type Numerical) have the following correlation results: Correlation = 0.2621447427864812 and Linear.
+Correlation defined as weak (0.2 < |η| <= 0.39) by Evans scale and weak (0.2 < |η| <= 0.3) by Chaddock scale
+
+Hypothesis: Columns age (Type Numerical) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.1667708343942209
+
+Hypothesis: Columns age (Type Numerical) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.3833973376479412
+
+Hypothesis: Columns age (Type Numerical) and thal (Type Categorical Default) have the following correlation results: 0.11914657542358888
+
+Hypothesis: Columns age (Type Numerical) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.21254494808635485
+
+Hypothesis: Columns chest_pain_type (Type Categorical Dichotomous) and sex (Type Categorical Ordinal) have the following correlation results: -0.05241870919611587
+
+Hypothesis: Columns rest_bld_press (Type Categorical Dichotomous) and sex (Type Numerical) have the following correlation results: 0.04015444786769103
+
+Hypothesis: Columns ser_chol (Type Categorical Dichotomous) and sex (Type Numerical) have the following correlation results: 0.14558158489831854
+
+Hypothesis: Columns sex (Type Categorical Dichotomous) and fast_bld_sugar (Type Categorical Dichotomous) have the following correlation results: No correlation as p-value=0.3843637193664753 is too high
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Dichotomous) and sex (Type Categorical Ordinal) have the following correlation results: -0.07740349809793086
+
+Hypothesis: Columns max_heart_rate (Type Categorical Dichotomous) and sex (Type Numerical) have the following correlation results: 0.0727147429358737
+
+Hypothesis: Columns sex (Type Categorical Dichotomous) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: Correlation exists with p-value=0.0037256492788383267
+
+Hypothesis: Columns oldpeak (Type Categorical Dichotomous) and sex (Type Numerical) have the following correlation results: -0.16953792883620503
+
+Hypothesis: Columns st_seg (Type Categorical Dichotomous) and sex (Type Categorical Ordinal) have the following correlation results: -0.08181464844981906
+
+Hypothesis: Columns major_vess (Type Categorical Dichotomous) and sex (Type Categorical Ordinal) have the following correlation results: -0.13823368594539118
+
+Hypothesis: Columns thal (Type Categorical Dichotomous) and sex (Type Categorical Default) have the following correlation results: No correlation as p-value=0.46708249978543354 is too high
+
+Hypothesis: Columns sex (Type Categorical Dichotomous) and heart_disease (Type Categorical Dichotomous) have the following correlation results: Correlation exists with p-value=5.326104070129059e-07
+
+Hypothesis: Columns rest_bld_press (Type Categorical Ordinal) and chest_pain_type (Type Numerical) have the following correlation results: 0.1992790174772102
+
+Hypothesis: Columns ser_chol (Type Categorical Ordinal) and chest_pain_type (Type Numerical) have the following correlation results: 0.14252831681361963
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and fast_bld_sugar (Type Categorical Dichotomous) have the following correlation results: -0.10385675246737539
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and rest_elcard_res (Type Categorical Ordinal) have the following correlation results: 0.106650406
+
+Hypothesis: Columns max_heart_rate (Type Categorical Ordinal) and chest_pain_type (Type Numerical) have the following correlation results: 0.34484358491013245
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: 0.3519183007189324
+
+Hypothesis: Columns oldpeak (Type Categorical Ordinal) and chest_pain_type (Type Numerical) have the following correlation results: 0.3176097342758716
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.1519487148
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.2188383393
+
+Hypothesis: Columns thal (Type Categorical Ordinal) and chest_pain_type (Type Categorical Default) have the following correlation results: 0.07389850764346412
+
+Hypothesis: Columns chest_pain_type (Type Categorical Ordinal) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.41215086565901643
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and ser_chol (Type Numerical) have the following correlation results: Correlation = 0.31551176892433547 and Linear.
+Correlation defined as weak (0.2 < |η| <= 0.39) by Evans scale and moderate (0.3 < |η| <= 0.5) by Chaddock scale
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and fast_bld_sugar (Type Categorical Dichotomous) have the following correlation results: 0.13627784781459687
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and rest_elcard_res (Type Categorical Ordinal) have the following correlation results: 0.17436902832616508
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and max_heart_rate (Type Numerical) have the following correlation results: No correlation
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: 0.07808520118750505
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and oldpeak (Type Numerical) have the following correlation results: Correlation = 0.25548763749953785 and Linear.
+Correlation defined as weak (0.2 < |η| <= 0.39) by Evans scale and weak (0.2 < |η| <= 0.3) by Chaddock scale
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.12766626076972704
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.11822373510831022
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and thal (Type Categorical Default) have the following correlation results: 0.10923735377836721
+
+Hypothesis: Columns rest_bld_press (Type Numerical) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.12186005710865667
+
+Hypothesis: Columns ser_chol (Type Numerical) and fast_bld_sugar (Type Categorical Dichotomous) have the following correlation results: 0.006410267485879258
+
+Hypothesis: Columns ser_chol (Type Numerical) and rest_elcard_res (Type Categorical Ordinal) have the following correlation results: 0.13153902762891184
+
+Hypothesis: Columns ser_chol (Type Numerical) and max_heart_rate (Type Numerical) have the following correlation results: No correlation
+
+Hypothesis: Columns ser_chol (Type Numerical) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: 0.10703360897469585
+
+Hypothesis: Columns ser_chol (Type Numerical) and oldpeak (Type Numerical) have the following correlation results: No correlation
+
+Hypothesis: Columns ser_chol (Type Numerical) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.04143559403323815
+
+Hypothesis: Columns ser_chol (Type Numerical) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.12662246119715503
+
+Hypothesis: Columns ser_chol (Type Numerical) and thal (Type Categorical Default) have the following correlation results: 0.09735752028132923
+
+Hypothesis: Columns ser_chol (Type Numerical) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.15114190963573898
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Dichotomous) and fast_bld_sugar (Type Categorical Ordinal) have the following correlation results: 0.04203265541883289
+
+Hypothesis: Columns max_heart_rate (Type Categorical Dichotomous) and fast_bld_sugar (Type Numerical) have the following correlation results: 0.02343003201869797
+
+Hypothesis: Columns fast_bld_sugar (Type Categorical Dichotomous) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: No correlation as p-value=0.9937222206972195 is too high
+
+Hypothesis: Columns oldpeak (Type Categorical Dichotomous) and fast_bld_sugar (Type Numerical) have the following correlation results: -0.033487275097855145
+
+Hypothesis: Columns st_seg (Type Categorical Dichotomous) and fast_bld_sugar (Type Categorical Ordinal) have the following correlation results: 0.044368486919234056
+
+Hypothesis: Columns major_vess (Type Categorical Dichotomous) and fast_bld_sugar (Type Categorical Ordinal) have the following correlation results: 0.12200501732758774
+
+Hypothesis: Columns thal (Type Categorical Dichotomous) and fast_bld_sugar (Type Categorical Default) have the following correlation results: No correlation as p-value=0.46708249978543354 is too high
+
+Hypothesis: Columns fast_bld_sugar (Type Categorical Dichotomous) and heart_disease (Type Categorical Dichotomous) have the following correlation results: No correlation as p-value=1.0 is too high
+
+Hypothesis: Columns max_heart_rate (Type Categorical Ordinal) and rest_elcard_res (Type Numerical) have the following correlation results: 0.16785459974910974
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Ordinal) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: 0.10368096281574442
+
+Hypothesis: Columns oldpeak (Type Categorical Ordinal) and rest_elcard_res (Type Numerical) have the following correlation results: 0.15387540686475348
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Ordinal) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.1594427498
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Ordinal) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.0763834227
+
+Hypothesis: Columns thal (Type Categorical Ordinal) and rest_elcard_res (Type Categorical Default) have the following correlation results: 0.00597503202087014
+
+Hypothesis: Columns rest_elcard_res (Type Categorical Ordinal) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.18294002082347116
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and ex_ind_angina (Type Categorical Dichotomous) have the following correlation results: -0.39041013975444
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and oldpeak (Type Numerical) have the following correlation results: Correlation = 0.38709328383704317 and Linear.
+Correlation defined as weak (0.2 < |η| <= 0.39) by Evans scale and moderate (0.3 < |η| <= 0.5) by Chaddock scale
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.4419598783618935
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.36771407685992513
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and thal (Type Categorical Default) have the following correlation results: 0.2948860979962359
+
+Hypothesis: Columns max_heart_rate (Type Numerical) and heart_disease (Type Categorical Dichotomous) have the following correlation results: 0.4231113365797693
+
+Hypothesis: Columns oldpeak (Type Categorical Dichotomous) and ex_ind_angina (Type Numerical) have the following correlation results: 0.28592821847971744
+
+Hypothesis: Columns st_seg (Type Categorical Dichotomous) and ex_ind_angina (Type Categorical Ordinal) have the following correlation results: 0.24756333757026733
+
+Hypothesis: Columns major_vess (Type Categorical Dichotomous) and ex_ind_angina (Type Categorical Ordinal) have the following correlation results: 0.16129903667471499
+
+Hypothesis: Columns thal (Type Categorical Dichotomous) and ex_ind_angina (Type Categorical Default) have the following correlation results: No correlation as p-value=0.46708249978543354 is too high
+
+Hypothesis: Columns ex_ind_angina (Type Categorical Dichotomous) and heart_disease (Type Categorical Dichotomous) have the following correlation results: Correlation exists with p-value=1.8771197577079585e-11
+
+Hypothesis: Columns oldpeak (Type Numerical) and st_seg (Type Categorical Ordinal) have the following correlation results: 0.5801743874398415
+
+Hypothesis: Columns oldpeak (Type Numerical) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.2294469373200632
+
+Hypothesis: Columns oldpeak (Type Numerical) and thal (Type Categorical Default) have the following correlation results: 0.29664251136232983
+
+Hypothesis: Columns oldpeak (Type Numerical) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.41086162183633484
+
+Hypothesis: Columns st_seg (Type Categorical Ordinal) and major_vess (Type Categorical Ordinal) have the following correlation results: 0.1037837971
+
+Hypothesis: Columns thal (Type Categorical Ordinal) and st_seg (Type Categorical Default) have the following correlation results: 0.06092599396651711
+
+Hypothesis: Columns st_seg (Type Categorical Ordinal) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.3210081773191791
+
+Hypothesis: Columns thal (Type Categorical Ordinal) and major_vess (Type Categorical Default) have the following correlation results: 0.038653076441654534
+
+Hypothesis: Columns major_vess (Type Categorical Ordinal) and heart_disease (Type Categorical Dichotomous) have the following correlation results: -0.44975745608518364
+
+Hypothesis: Columns thal (Type Categorical Default) and heart_disease (Type Categorical Dichotomous) have the following correlation results: No correlation as p-value=0.46708249978543354 is too high
+
+Processed 91 pairs of columns.
