@@ -1,8 +1,0 @@
-Hypothesis: Columns height (Type Categorical Dichotomous) and gender (Type Numerical) have the following correlation results: -0.6915119955761805
-
-Hypothesis: Columns weight (Type Categorical Dichotomous) and gender (Type Numerical) have the following correlation results: -0.7972836358198755
-
-Hypothesis: Columns height (Type Numerical) and weight (Type Numerical) have the following correlation results: Correlation = 0.9127514232585415 and Linear.
-Correlation defined as very strong (0.8 < |η| <= 1.0) by Evans scale and very high (0.9 < |η| <= 0.99) by Chaddock scale
-
-Processed 3 pairs of columns.

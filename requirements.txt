@@ -3,3 +3,4 @@ configparser
 pandas
 numpy
 scipy
+telebot

@@ -5,6 +5,7 @@ import math
 from sqlalchemy import create_engine, text
 import pandas as pd
 import numpy as np
+import telebot as tb
 from scipy import stats
 from itertools import combinations
 
@@ -13,6 +14,10 @@ DB_PASS='postgres'
 DB_HOST='db'
 DB_PORT=5433
 DB_NAME='correlation_test'
+
+TG_BOT_TOKEN = '6268780388:AAHBuiltSKV_QD-hHYcyg0jIrQJWmVy6Yks'
+TG_USER_ID = 419243340
+bot = tb.TeleBot(TG_BOT_TOKEN)
 
 a_level = 0.05
 p_level = 1 - a_level
@@ -131,10 +136,7 @@ def count_catDef_di(dataf, cat, di):
 
     cat_data = pd.get_dummies(dataf[cat])
     res = stats.chi2_contingency(cat_data, dataf[di])[1]
-    if res < a_level:
-        return f'Correlation exists with p-value={res}'
-    else:
-        return f'No correlation as p-value={res} is too high'
+    return res
 
 
 def count_catO_catO(dataf, cat1, cat2):
@@ -148,10 +150,7 @@ def count_di_di(dataf, cat1, cat2):
     print(f'Checking correlation between {cat1}(DICHOTOMOUS) AND {cat2}(DICHOTOMOUS):')
 
     res = stats.chi2_contingency(pd.crosstab(dataf[cat1], dataf[cat2]))[1]
-    if res < a_level:
-        return f'Correlation exists with p-value={res}'
-    else:
-        return f'No correlation as p-value={res} is too high'
+    return res
 
 
 def detect_outliers(data, column):
@@ -200,14 +199,14 @@ def interval_counter(x):
 
 def chaddock_scale_check(r, name='r'):
     chaddock_scale = {
-        f'no correlation (|{name}| <= 0.1)': 0.1,
-        f'very weak (0.1 < |{name}| <= 0.2)': 0.2,
-        f'weak (0.2 < |{name}| <= 0.3)': 0.3,
-        f'moderate (0.3 < |{name}| <= 0.5)': 0.5,
-        f'perceptible (0.5 < |{name}| <= 0.7)': 0.7,
-        f'high (0.7 < |{name}| <= 0.9)': 0.9,
-        f'very high (0.9 < |{name}| <= 0.99)': 0.99,
-        f'functional (|{name}| > 0.99)': 1.0}
+        f'отсутствует (|{name}| <= 0.1)': 0.1,
+        f'очень слабая (0.1 < |{name}| <= 0.2)': 0.2,
+        f'слабая (0.2 < |{name}| <= 0.3)': 0.3,
+        f'умеренная (0.3 < |{name}| <= 0.5)': 0.5,
+        f'ощутимая (0.5 < |{name}| <= 0.7)': 0.7,
+        f'высокая (0.7 < |{name}| <= 0.9)': 0.9,
+        f'очень высокая (0.9 < |{name}| <= 0.99)': 0.99,
+        f'функциональная (|{name}| > 0.99)': 1.0}
 
     r_scale = list(chaddock_scale.values())
     for i, elem in enumerate(r_scale):
@@ -219,11 +218,11 @@ def chaddock_scale_check(r, name='r'):
 
 def Evans_scale_check(r, name='r'):
     Evans_scale = {
-        f'very weak (|{name}| < 0.19)': 0.2,
-        f'weak (0.2 < |{name}| <= 0.39)': 0.4,
-        f'moderate (0.4 < |{name}| <= 0.59)': 0.6,
-        f'strong (0.6 < |{name}| <= 0.79)': 0.8,
-        f'very strong (0.8 < |{name}| <= 1.0)': 1.0}
+        f'очень слабая (|{name}| < 0.19)': 0.2,
+        f'слабая (0.2 < |{name}| <= 0.39)': 0.4,
+        f'умеренная (0.4 < |{name}| <= 0.59)': 0.6,
+        f'сильная (0.6 < |{name}| <= 0.79)': 0.8,
+        f'очень сильная (0.8 < |{name}| <= 1.0)': 1.0}
 
     r_scale = list(Evans_scale.values())
     for i, elem in enumerate(r_scale):
@@ -322,7 +321,6 @@ def correlations(df, col1, col2):
         F_line_corr_sign_calc = (n_X - K_X) / (K_X - 2) * (corr_ratio_XY ** 2 - corr_coef ** 2) / (
                 1 - corr_ratio_XY ** 2)
 
-
         dfn = K_X - 2
         dfd = n_X - K_X
         F_line_corr_sign_table = stats.f.ppf(p_level, dfn, dfd, loc=0, scale=1)
@@ -353,6 +351,7 @@ def main():
     tables = res_sql.fetchall()
     for table in tables:
         result = ''
+        res_tg = list()
         table_name = table[0]
         data = pd.read_sql("SELECT * FROM " + table_name, con)
 
@@ -389,81 +388,146 @@ def main():
                     ch_close = res['chaddock'].iat[0]
                     if res['lin_meaning'].iat[0]:
                         corr_lin = res['lin'].iat[0]
-                        result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Numerical) ' \
-                                  f'have the following correlation results: Correlation = {corr} and Linear.\n' \
-                                  f'Correlation defined as {ev_close} by Evans scale and {ch_close} by Chaddock scale\n\n'
+                        hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Количественный) ' \
+                              f'имеют линейную корреляцию = {corr}.\n' \
+                              f'Корреляция {ev_close} по шкале Эванса и {ch_close} по шкале Чеддока\n\n'
+                        result += hyp
+                        if abs(corr) >= 0.35:
+                            res_tg.append(f'[{table_name}] {hyp}')
                     else:
-                        result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Numerical) ' \
-                                  f'have the following correlation results: Correlation = {corr} and Non-Linear.\n' \
-                                  f'Correlation defined as {ev_close} by Evans scale and {ch_close} by Chaddock scale\n\n'
+                        hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Количественный) ' \
+                              f'имеют нелинейную корреляцию = {corr}.\n' \
+                              f'Корреляция {ev_close} по шкале Эванса и {ch_close} по шкале Чеддока\n\n'
+                        result += hyp
+                        if abs(corr) >= 0.35:
+                            res_tg.append(f'[{table_name}] {hyp}')
                 else:
-                    result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Numerical) ' \
-                              f'have the following correlation results: No correlation\n\n'
+                    hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Количественный) ' \
+                          f'не имеют корреляции\n\n'
+                    result += hyp
             if typo1 == 1 and typo2 == 2:
                 res = count_num_cat(df, pair[0], pair[1])
-                result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Categorical Default) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Категориальный Номинальный) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 1 and typo2 == 3:
                 res = (count_num_cat(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Categorical Ordinal) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Категориальный Порядковый) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 1 and typo2 == 4:
                 res = (count_num_di(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Numerical) and {pair[1]} (Type Categorical Dichotomous) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Количественный) и {pair[1]} (Тип: Дихотомический) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 2 and typo2 == 1:
                 res = (count_num_cat(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Default) and {pair[0]} (Type Numerical) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Количественный) и {pair[0]} (Тип: Категориальный Номинальный) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 2 and typo2 == 2:
                 res = (count_cat_cat(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Default) and {pair[1]} (Type Categorical Default) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Номинальный) и {pair[1]} (Тип: Категориальный Номинальный) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 2 and typo2 == 3:
                 res = (count_cat_cat(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Default) and {pair[1]} (Type Categorical Ordinal) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Номинальный) и {pair[1]} (Тип: Категориальный Порядковый) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 2 and typo2 == 4:
                 res = (count_catDef_di(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Default) and {pair[1]} (Type Categorical Dichotomous) ' \
-                          f'have the following correlation results: {res}\n\n'
+                if res < a_level:
+                    hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Номинальный) и {pair[1]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляция существует, так как p-значение={res} меньше допустимого\n\n'
+                    result += hyp
+                    res_tg.append(f'[{table_name}] {hyp}')
+                else:
+                    hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Номинальный) и {pair[1]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляции нет, так как p-значение={res} выше допустимого\n\n'
+                    result += hyp
+
             if typo1 == 3 and typo2 == 1:
                 res = (count_num_cat(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Ordinal) and {pair[0]} (Type Numerical) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Количественный) и {pair[0]} (Тип: Категориальный Порядковый) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 3 and typo2 == 2:
                 res = (count_cat_cat(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Ordinal) and {pair[0]} (Type Categorical Default) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Категориальный Номинальный) и {pair[0]} (Тип: Категориальный Порядковый) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 3 and typo2 == 3:
                 res = (count_catO_catO(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Ordinal) and {pair[1]} (Type Categorical Ordinal) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Порядковый) и {pair[1]} (Тип: Категориальный Порядковый) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 3 and typo2 == 4:
                 res = (count_cat_di(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Ordinal) and {pair[1]} (Type Categorical Dichotomous) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Категориальный Порядковый) и {pair[1]} (Тип: Дихотомический) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 4 and typo2 == 1:
                 res = (count_num_di(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Dichotomous) and {pair[0]} (Type Numerical) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Количественный) и {pair[0]} (Тип: Дихотомический) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 4 and typo2 == 2:
                 res = (count_catDef_di(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Dichotomous) and {pair[0]} (Type Categorical Default) ' \
-                          f'have the following correlation results: {res}\n\n'
+                if res < a_level:
+                    hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Категориальный Номинальный) и {pair[0]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляция существует, так как p-значение={res} меньше допустимого\n\n'
+                    result += hyp
+                    res_tg.append(f'[{table_name}] {hyp}')
+                else:
+                    hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Категориальный Номинальный) и {pair[0]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляции нет, так как p-значение={res} выше допустимого\n\n'
+                    result += hyp
             if typo1 == 4 and typo2 == 3:
                 res = (count_cat_di(df, pair[1], pair[0]))
-                result += f'Hypothesis: Columns {pair[1]} (Type Categorical Dichotomous) and {pair[0]} (Type Categorical Ordinal) ' \
-                          f'have the following correlation results: {res}\n\n'
+                hyp = f'Гипотеза: Признаки {pair[1]} (Тип: Категориальный Порядковый) и {pair[0]} (Тип: Дихотомический) ' \
+                      f'имеют корреляцию = {res}\n\n'
+                result += hyp
+                if abs(res) >= 0.35:
+                    res_tg.append(f'[{table_name}] {hyp}')
             if typo1 == 4 and typo2 == 4:
                 res = (count_di_di(df, pair[0], pair[1]))
-                result += f'Hypothesis: Columns {pair[0]} (Type Categorical Dichotomous) and {pair[1]} (Type Categorical Dichotomous) ' \
-                          f'have the following correlation results: {res}\n\n'
+                if res < a_level:
+                    hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Дихотомический) и {pair[1]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляция существует, так как p-значение={res} меньше допустимого\n\n'
+                    result += hyp
+                    res_tg.append(f'[{table_name}] {hyp}')
+                else:
+                    hyp = f'Гипотеза: Признаки {pair[0]} (Тип: Дихотомический) и {pair[1]} (Тип: Дихотомический) ' \
+                          f'коррелируют следующим образом: Корреляции нет, так как p-значение={res} выше допустимого\n\n'
+                    result += hyp
             if typo1 == 99:
-                res = f'Error while checking correlation between columns {pair[0]} and {pair[1]} - Unknown type for {pair[0]} column!\n\n'
+                res = f'Ошибка при проверки корреляций между признаками {pair[0]} и {pair[1]} - неизвестный тип данных для признака {pair[0]}!\n\n'
                 result += res
             if typo2 == 99:
-                res = f'Error while checking correlation between columns {pair[0]} and {pair[1]} - Unknown type for {pair[1]} column!\n\n'
+                res = f'Ошибка при проверки корреляций между признаками {pair[0]} and {pair[1]} - неизвестный тип данных для признака {pair[1]}!\n\n'
                 result += res
             print('\n')
         result += f'Processed {i} pairs of columns.'
@@ -474,6 +538,10 @@ def main():
         print(path_file)
         with open(path_file, 'w', encoding="utf-8") as f:
             f.write(result)
+
+        for corr in res_tg:
+            bot.send_message(TG_USER_ID, corr)
+
     con.close()
 
 
